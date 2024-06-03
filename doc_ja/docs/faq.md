@@ -7,9 +7,6 @@ Georgi Gerganov氏が公開しているGGMLという機械学習フレームワ�
 
 詳細は[公式ページ](https://github.com/ggerganov/ggml/blob/master/docs/gguf.md)をご覧ください。
 
+## GPUが必要ですか？
 
-<!-- ## GPUが必要ですか？
-
-いいえ、CPUのみでも動作します。 -->
-
- 
+いいえ、CPUのみでも動作します。

@@ -382,7 +382,7 @@
   
     <li class="md-nav__item">
       <a href="../how-to-get-model/" class="md-nav__link">
-        Get models
+        Supported models
       </a>
     </li>
   
@@ -429,22 +429,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    Setup
+  <a href="#1-add-a-component" class="md-nav__link">
+    1. Add a component
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#change-setting" class="md-nav__link">
-    Change setting
+  <a href="#2-edit-settings" class="md-nav__link">
+    2. Edit settings
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-and-stop" class="md-nav__link">
-    Start and stop
+  <a href="#3-input-prompts" class="md-nav__link">
+    3. Input prompts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-get-results" class="md-nav__link">
+    4. Get results
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#others" class="md-nav__link">
+    Others
   </a>
   
 </li>
@@ -453,6 +467,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-to-save/" class="md-nav__link">
+        State save and load
+      </a>
     </li>
   
 
@@ -517,36 +545,127 @@
 <h1 id="basic-usage">Basic usage</h1>
 <p>See <code>Plugins &gt; LocalLLM &gt; Sample &gt; BP &gt; BP_Example</code> for a sample implementation.<br />
 You can test it in a sample map located at <code>Plugins &gt; LocalLLM &gt; Sample &gt; Map &gt; Test</code>.</p>
-<h2 id="setup">Setup</h2>
-<p><img alt="" loading="lazy" src="../images/basic.png" />  </p>
+<p><img alt="" loading="lazy" src="../images/manual_en.png" />  </p>
+<h2 id="1-add-a-component">1. Add a component</h2>
 <ol>
 <li>Create an actor blueprint.</li>
 <li>Add <code>Local LLM</code> component.</li>
-<li>Select <code>Local LLM</code> component and set <code>Local LLM &gt; Prompt</code> in Details tab.</li>
-<li>Select <code>Local LLM</code> component and set <code>Local LLM &gt; Local LLM Setting &gt; Model Setting</code> in Details tab.<ul>
+</ol>
+<h2 id="2-edit-settings">2. Edit settings</h2>
+<p>Select the <code>Local LLM</code> component and edit the following settings at <code>Local LLM &gt; Local LLM Setting</code> in the Details tab.</p>
+<ol>
+<li>
+<p>Model Setting</p>
+<ul>
 <li><code>Model Path</code>: Specify the path to the gguf model.</li>
 <li><code>Execution device</code>: Whether to use CPU or GPU.</li>
 <li><code>Number Of Gpu Layers</code>: If using a GPU, specify the number of layers in the model to be run on the GPU.</li>
-<li><code>Main GPU</code>: If using a GPU and the PC is equipped with multiple GPUs, specify the index of the GPU to be used.</li>
 </ul>
 </li>
-<li>Create <code>On Generating</code> event and <code>On Generated</code> event of <code>Local LLM</code> component to get the result.<ul>
+<li>
+<p>Prompt Setting</p>
+<ul>
+<li><code>Initial Prompt</code>: Describe the role of the LLM and basic instructions.  </li>
+<li><code>Talk History</code>: Describe the history of the conversation so far. This is used when you want to resume a previous conversation without using the state save/load described in the next page.</li>
+</ul>
+<p>Both of these are "the first prompt entered into the LLM" when the LLM is initialized.<br />
+The difference is that the <code>Initial Prompt</code> is retained throughout the conversation (in the default setting), while the <code>Talk History</code> can be discarded if the conversation becomes too long.<br />
+This is because there is a limit to the length of the string (context length) that can be entered into the LLM. How information is retained and discarded is set in the <code>Context Setting</code> described later.</p>
+<details class="tip">
+<summary>Example of Initial Prompt</summary>
+<p>Role play. You are a talented engineer. You speak as an "Assistant". You give appropriate advice in response to the statement of "User". Your advice should be brief and to the point. An example of a conversation is shown below.</p>
+<p>(Example)<br />
+User: I'm getting an error message and the compile fails.<br />
+Assistant: Read the error message first. Most things can be solved with that.<br />
+User: I have no idea what it's saying!<br />
+Assistant: Then Google the error message. You may be able to find a solution in the forum.<br />
+User: OK!<br />
+Assistant: It is also important to read the manual, if there is one!</p>
+<p>Let's get started.</p>
+</details>
+</li>
+<li>
+<p>Interaction Setting</p>
+<p>Set how to process prompts for chat-like experience with LLMs. Templates for common settings can be selected at <code>Interaction Template</code>.</p>
+<ul>
+<li><code>Interaction Template = Interaction of Two</code>: Automatically configures the settings for the conversation between two people, the User and the Assistant. The names of the User and AI Assistant must be set, and these must match the conversation examples, if any, described in the <code>Prompt Setting</code>.</li>
+<li><code>Interaction Template = Instruction</code>: Configures the settings for Instruction format. Used for Alpaca models, etc.</li>
+<li><code>Interaction Template = ChatML</code>: Configures the settings for ChatML format. Used for models trained with ChatML syntax.</li>
+</ul>
+<details class="tip">
+<summary>Manual settings without templates</summary>
+<p>If <code>Interaction Template = None</code>, set the following values manually.</p>
+<ul>
+<li><code>Antiprompts</code>: When LLM outputs one of these phrases, it stops to generate text. For example, "User:" can be used to stop generation when it's the user's turn to speak. Also known as Reverse prompts or Stop keywords.</li>
+<li><code>Add Antiprompt as Prefix</code>: Whether to add the first one of <code>Antiprompts</code> automaticcaly to the next prompt as prefix after LLM stops without antiprompt (for example, after <End Of Sequence> token is generated).</li>
+<li><code>Input Prefix</code>: Prefix immediately before the user's input.</li>
+<li><code>Input Suffix</code>: Suffix immediately after user's input. This is useful for adding an "Assistant:" prompt after the user's input. It's added after the new-line character (\n) that's automatically added to the end of the user's input.</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Context Setting</p>
+<ul>
+<li><code>N Ctx</code>: Context length (number of tokens) that the model can use when generating text. Increasing this allows responses to longer inputs and longer conversations.</li>
+<li>
+<p><code>N Keep</code>: How many of the <code>Initial Prompt</code> tokens to keep when the total input/output to the model exceeds the context length. If this value is greater than (<code>N Ctx</code> - 64), it is automatically set to (<code>N Ctx</code> - 64).</p>
+<ul>
+<li>-1 = Keep all tokens of the <code>Initial Prompt</code></li>
+</ul>
+</li>
+<li>
+<p><code>N Predict</code>: Maximum number of tokens to generate for one input</p>
+<ul>
+<li>-1 = No limit</li>
+<li>-2 = Until context is filled</li>
+</ul>
+</li>
+</ul>
+<details class="tip">
+<summary>Token Discard Rule</summary>
+<p>For example, if <code>N Ctx = 512</code>、<code>N Keep = -1</code>、<code>N Predict = -1</code> and <code>Initial Prompt</code> is 300 tokens, the conversation will take place within 512 - 300 = 212 tokens. Each input from the user and each output from the LLM will consume these 212 tokens, and when the remaining amount becomes less than 32 tokens, some of the past input and output will be discarded.</p>
+<p>The number of tokens to be discarded is set by the following parameter.</p>
+<ul>
+<li>If <code>Discard Rule = Fixed Ratio</code>: (Number of tokens used so far - <code>N Keep</code>) * <code>Ratio</code> will be discarded.</li>
+<li>If <code>Discard Rule = Fixed Length</code>: The number of tokens specified by <code>Length</code> will be discarded.</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Sampling Setting</p>
+<p>Settings to fine-tune the diversity, creativity, and quality of the generated text according to your needs.</p>
+<p>See the tooltip of each item or the comments in <code>LocalLLMStruct.h</code> for details.</p>
+</li>
+<li>
+<p>Performance Setting</p>
+<p>Settings to improve performance and memory usage of LLM models.</p>
+<p>For details, see the tooltip of each item or the comments in <code>LocalLLMStruct.h</code>.</p>
+</li>
+</ol>
+<h2 id="3-input-prompts">3. Input prompts</h2>
+<p>Create a process that allows you to input a string, called a prompt, to tell LLM to start generating text.<br />
+Specifically, call the <code>Start Generation</code> function.</p>
+<ul>
+<li>The text generation itself is executed asynchronously. See "4. Get results" for how to get the results of generation.</li>
+<li>You can call the <code>Start Generation</code> function at any time, even during text generation, to enter a new prompt.</li>
+</ul>
+<h2 id="4-get-results">4. Get results</h2>
+<p>Create the following event of <code>Local LLM</code> component to get the result.</p>
+<ul>
 <li><code>On Generating</code> event provides intermidiate result while the model is still generating response.</li>
 <li><code>On Generated</code> event provides final result after the model finishes the response.</li>
 </ul>
-</li>
-</ol>
-<h2 id="change-setting">Change setting</h2>
+<p>The following results are passed:</p>
 <ul>
-<li>
-<p>To change setting, call <code>Change Setting</code> after changing values of <code>Local LLM Setting</code>.</p>
-<!-- <img alt="" src="images/BP-transcript-change-setting.png" />{ loading=lazy }   -->
-</li>
+<li><code>Input</code>: The input string actually processed by the LLM, with Prefix and Suffix added to the user's input.</li>
+<li><code>Output</code>: The output string from the LLM.</li>
+<li><code>Found Antiprompt</code>: Antiprompt found at the end of the output string from the LLM, if any. Empty if not found.</li>
 </ul>
-<h2 id="start-and-stop">Start and stop</h2>
+<h2 id="others">Others</h2>
 <ul>
-<li>Call <code>Start Generation</code> to generate response to <code>Prompt</code>.</li>
+<li>To change setting, call <code>Change Setting</code> after changing values of <code>Local LLM Setting</code>. All the current settings and conversation history are discarded. The model is re-initialized with the new settings.</li>
 <li>Call <code>Stop Generation</code> to terminate the response to the <code>Prompt</code>.</li>
+<li>To the <code>Hisotry</code> variable, the actual inputs and outputs processed by the LLM are written out.</li>
 </ul>
 
 
@@ -570,7 +689,7 @@ You can test it in a sample map located at <code>Plugins &gt; LocalLLM &gt; Samp
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../how-to-get-model/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Get models" rel="prev">
+        <a href="../how-to-get-model/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Supported models" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -579,20 +698,20 @@ You can test it in a sample map located at <code>Plugins &gt; LocalLLM &gt; Samp
               <span class="md-footer__direction">
                 Previous
               </span>
-              Get models
+              Supported models
             </div>
           </div>
         </a>
       
       
         
-        <a href="../faq/" class="md-footer__link md-footer__link--next" aria-label="Next: FAQ" rel="next">
+        <a href="../how-to-save/" class="md-footer__link md-footer__link--next" aria-label="Next: State save and load" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              FAQ
+              State save and load
             </div>
           </div>
           <div class="md-footer__button md-icon">

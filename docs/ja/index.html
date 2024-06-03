@@ -320,9 +320,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Local LLM Pluginって何？
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         Local LLM Pluginって何？
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bpc" class="md-nav__link">
+    ローカル &amp; BP/C++ で完結
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    便利な機能
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -390,7 +428,7 @@
   
     <li class="md-nav__item">
       <a href="how-to-get-model/" class="md-nav__link">
-        モデルの入手
+        動作確認済みのモデル
       </a>
     </li>
   
@@ -405,6 +443,20 @@
     <li class="md-nav__item">
       <a href="how-to-use/" class="md-nav__link">
         基本的な使い方
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="how-to-save/" class="md-nav__link">
+        ステートセーブとロード
       </a>
     </li>
   
@@ -471,12 +523,18 @@
 <p><a href="https://vrlab.akiya-souken.co.jp/products/localllmplugin/">Local LLM Plugin</a>は、GGUF形式の大規模言語モデル(LLM)をロードしてUnreal Engine上で実行できるようにするプラグインです。</p>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/xjIJklDqJdE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
 
+<h2 id="bpc">ローカル &amp; BP/C++ で完結</h2>
 <ul>
 <li>ローカルPC上でオフラインで動作します。</li>
 <li>アクターにコンポーネントを一つ追加するだけで動作します。</li>
+<li>Pythonや専用サーバは必要ありません。</li>
+</ul>
+<h2 id="_1">便利な機能</h2>
+<ul>
+<li>非同期に動作し、回答の生成中にいつでも追加の質問をすることができます。</li>
+<li>LLMとの会話の文脈を保持した「状態」のセーブとロードが可能で、以前の会話の続きを後から再開できます。</li>
 <li>マルチバイト文字が使用可能です。</li>
 </ul>
-<!-- - CPUまたはCUDAをサポートするNVIDIAのGPUで動作します。 -->
 <!-- - [デモプロジェクト](./demo)を無料でダウンロードできます。 -->
 
 

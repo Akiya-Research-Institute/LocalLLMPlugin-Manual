@@ -41,6 +41,14 @@
 
     We cannot guarantee whether it will work properly in other environments, so the Android support status is "Experimental". -->
 
-## Supported GPU
+## Hardware Requirements
 
-- NVIDIA GPUs that support CUDA 12.2
+- CPU or NVIDIA GPU that support CUDA 12.2
+
+!!! Info "Works with CPU only"
+    GPU is optional and works fine with CPU only.
+
+!!! Info "Installing CUDA"
+    To use with GPU, the following version of CUDA is required to be installed.
+
+    - [CUDA 12.2.0](https://developer.nvidia.com/cuda-12-2-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local)

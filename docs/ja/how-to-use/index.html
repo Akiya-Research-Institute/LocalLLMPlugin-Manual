@@ -382,7 +382,7 @@
   
     <li class="md-nav__item">
       <a href="../how-to-get-model/" class="md-nav__link">
-        モデルの入手
+        動作確認済みのモデル
       </a>
     </li>
   
@@ -429,22 +429,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1.コンポーネントを追加
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.設定を編集
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.プロンプトの入力
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4.結果の取得
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
-    セットアップ
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    設定の変更
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    実行と停止
+    その他
   </a>
   
 </li>
@@ -453,6 +467,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-to-save/" class="md-nav__link">
+        ステートセーブとロード
+      </a>
     </li>
   
 
@@ -517,40 +545,115 @@
 <h1 id="_1">基本的な使い方</h1>
 <p>サンプル実装は、<code>Plugins &gt; LocalLLM &gt; Sample &gt; BP &gt; BP_Example</code>にあります。<br />
 <code>Plugins &gt; LocalLLM &gt; Sample &gt; Map &gt; Test</code>のマップでテストできます。</p>
-<h2 id="_2">セットアップ</h2>
-<p><img alt="" loading="lazy" src="../images/basic.png" />  </p>
+<p><img alt="" loading="lazy" src="../images/manual_ja.png" />  </p>
+<h2 id="1">1.コンポーネントを追加</h2>
 <ol>
-<li>アクターBlueprintを作成します</li>
+<li>Actorを作成します</li>
 <li><code>Local LLM</code>コンポーネントを追加します</li>
-<li><code>Local LLM</code>コンポーネントを選択して詳細タブで<code>Local LLM &gt; Prompt</code>にプロンプトを設定します。</li>
+</ol>
+<h2 id="2">2.設定を編集</h2>
+<p><code>Local LLM</code>コンポーネントを選択して詳細タブの<code>Local LLM &gt; Local LLM Setting</code>で下記の設定を編集します。</p>
+<ol>
 <li>
-<p><code>Local LLM</code>コンポーネントを選択して詳細タブで<code>Local LLM &gt; Local LLM Setting &gt; Model Setting</code>の値を設定します:</p>
+<p>Model Setting</p>
 <ul>
-<li><code>Model Path</code>：使用する機械学習モデルのファイルのフルパスを指定します。</li>
+<li><code>Model Path</code>：使用する機械学習モデルのファイルのパスを指定します。（例：「C:\temp\model.gguf」）</li>
 <li><code>Execution device</code>： CPUとGPUのどちらを使うかを指定します。</li>
-<li><code>Number Of Gpu Layers</code>：GPUを使用する場合、GPUで実行するモデルのレイヤー数を指定します。</li>
-<li><code>Main GPU</code>：GPUを使用し、PCに複数のGPUを搭載している場合、使用するGPUの番号を指定します。</li>
+<li><code>Number Of Gpu Layers</code>：GPUを使用する場合、GPUで実行するモデルのレイヤー数を指定します。
+<!-- - <code>Main GPU</code>：GPUを使用し、PCに複数のGPUを搭載している場合、使用するGPUの番号を指定します。 --></li>
 </ul>
 </li>
 <li>
-<p><code>Local LLM</code>コンポーネントの<code>On Generating</code>イベントと<code>On Generated</code>イベントから結果を取得する処理を作成します。</p>
+<p>Prompt Setting</p>
+<ul>
+<li><code>Initial Prompt</code>：LLMの役割や基本的な指示を記載します。  </li>
+<li><code>Talk History</code>：これまでの会話の履歴を記載します。後述する状態の保存を使わない場合に、過去の会話の続きから再開したい場合に使用します。</li>
+</ul>
+<p>これらのいずれも「LLMの初期化時に一番はじめにLLMに入力されるプロンプト」です。違いは、<code>Initial Prompt</code>は（デフォルト設定では）会話中も保持されるが、<code>Talk History</code>は会話が長くなりすぎると破棄されうることです。これは、LLMに入力できる文字列の長さ（コンテキスト長）には限りがあるためです。どのように情報を保持・破棄するかは後述の<code>Context Setting</code>で設定します。</p>
+<details class="tip">
+<summary>Initial Promptの例</summary>
+<p>ロールプレイをします。あなたは優秀なエンジニアです。あなたは「Assistant」として発言します。「User」の発言に対して、適格なアドバイスをします。アドバイスは端的に短い言葉で行ってください。会話の例を下記に示します。</p>
+<p>【例】<br />
+User: エラーになってコンパイルが通らないんだけど<br />
+Assistant: まずはエラーメッセージをちゃんと読みましょう。大抵のことはそれで解決します<br />
+User: ぜんぜん何言ってるかわかんない<br />
+Assistant: では、そのエラーメッセージでググりましょう。フォーラムなどで解決策が提示されているかもしれません<br />
+User: おけー<br />
+Assistant: マニュアルがある場合は、目を通しておくことも重要ですよ</p>
+<p>それでははじめましょう。</p>
+</details>
+</li>
+<li>
+<p>Interaction Setting</p>
+<p>LLMとの間で会話形式でのやりとりのためのプロンプトの加工方法を設定します。よくある設定のためのテンプレートを<code>Interaction Template</code>で選択できます。</p>
+<ul>
+<li><code>Interaction Template = Interaction of Two</code>: UserとAssistantの二人の会話となるように自動設定します。ユーザとAIアシスタントの名前を設定する必要があり、これらは<code>Prompt Setting</code>で会話例などを記述している場合はその内容と一致させておく必要があります。</li>
+<li><code>Interaction Template = Instruction</code>：Instruction形式に設定します。Alpacaモデル等で使用します。</li>
+<li><code>Interaction Template = ChatML</code>：ChatML形式に設定します。ChatMLの文法で訓練されたモデルで使用します。</li>
+</ul>
+<details class="tip">
+<summary>テンプレートを使用しない場合</summary>
+<p><code>Interaction Template = None</code>の場合、テンプレートを使わず手動で下記の値を設定します。</p>
+<ul>
+<li><code>Antiprompts</code>：LLMがこのフレーズを出力した場合、出力を停止します。例えば、「User:」と設定することで、ユーザーが発言する順番になったときに生成を停止させることができます。リバースプロンプトまたはStopキーワードとも呼ばれます。</li>
+<li><code>Add Antiprompt as Prefix</code>：<code>Antiprompts</code>によらずに出力が停止した場合に、次のユーザの入力の先頭に自動的に<code>Antiprompts</code>（の配列の一番はじめのもの）を付与するかどうか。</li>
+<li><code>Input Prefix</code>：ユーザの入力の直前に付与する文字列</li>
+<li><code>Input Suffix</code>：ユーザの入力の直後に付与する文字列。これは、ユーザーの入力の後に 「Assistant:」 のようなプロンプトを追加するのに便利です。ユーザーの入力の最後に自動的に追加される改行文字(\n)の後に追加されます</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Context Setting</p>
+<ul>
+<li><code>N Ctx</code>：テキスト生成時にモデルが使用するコンテキスト長（トークン数）。これを大きくすると、長い入力や長い会話に対する応答が可能になります。</li>
+<li><code>N Keep</code>：モデルへの入出力の合計がコンテキスト長を上回った際に、<code>Initial Prompt</code>のうちいくつのトークンを保持するか。-1の場合は<code>Initial Prompt</code>のすべてのトークンを保持します。ただし、この値が(<code>N Ctx</code> - 64)を超える場合は、(<code>N Ctx</code> - 64)に自動的に設定されます。</li>
+<li><code>N Predict</code>：入力1回に対して生成するトークンの最大数 (-1 = 制限なし、-2 = コンテキストが埋まるまで)</li>
+</ul>
+<details class="tip">
+<summary>トークン破棄の規則</summary>
+<p>例えば、<code>N Ctx = 512</code>、<code>N Keep = -1</code>、<code>N Predict = -1</code>で、<code>Initial Prompt</code>が300トークンであった場合、512 - 300 = 212 トークンの中で会話をしていくことになります。ユーザからの入力とLLMの出力のそれぞれでこの212トークンを消費していき、残りが32トークン以下となったところで過去の入出力の一部が破棄されます。</p>
+<p>破棄されるトークン数は下記のパラメータで設定します。</p>
+<ul>
+<li><code>Discard Rule = Fixed Ratio</code>の場合： (現在までに使用したトークン数 - <code>N Keep</code>) * <code>Ratio</code> だけ破棄します。</li>
+<li><code>Discard Rule = Fixed Length</code>の場合： <code>Length</code> で指定した数だけ破棄します。</li>
+</ul>
+</details>
+</li>
+<li>
+<p>Sampling Setting</p>
+<p>生成されるテキストの多様性、創造性、品質をニーズに応じて微調整するための設定。</p>
+<p>詳細は各項目のツールチップまたは<code>LocalLLMStruct.h</code>のコメントをご覧ください。</p>
+</li>
+<li>
+<p>Performance Setting</p>
+<p>LLMモデルのパフォーマンスとメモリ使用量を改善するための設定</p>
+<p>詳細は各項目のツールチップまたは<code>LocalLLMStruct.h</code>のコメントをご覧ください。</p>
+</li>
+</ol>
+<h2 id="3">3.プロンプトの入力</h2>
+<p>プロンプトと呼ばれる文字列を入力し、LLMにテキストの生成開始を指示する処理を作成します。<br />
+具体的には、<code>Start Generation</code>関数を呼び出します。</p>
+<ul>
+<li>テキストの生成自体は非同期に実行されます。生成結果の取得方法は「4.結果の取得」をご覧ください。</li>
+<li>テキスト生成中でもいつでも<code>Start Generation</code>関数を呼び出し、新たなプロンプトを入力することができます。</li>
+</ul>
+<h2 id="4">4.結果の取得</h2>
+<p><code>Local LLM</code>コンポーネントの下記イベントから結果を取得する処理を作成します。</p>
 <ul>
 <li><code>On Generating</code> イベントは、モデルが回答中の、中間的な結果を提供します。</li>
 <li><code>On Generated</code> イベントは、モデルの回答が完了した後に、最終的な結果を提供します。</li>
 </ul>
-</li>
-</ol>
-<h2 id="_3">設定の変更</h2>
+<p>それぞれ、下記の結果が渡されます。</p>
 <ul>
-<li>
-<p>設定を変更するには、<code>Change Setting</code>関数を呼び出します。</p>
-<!-- <img alt="" src="images/BP-transcript-change-setting.png" />{ loading=lazy }   -->
-</li>
+<li><code>Input</code>: ユーザの入力にPrefixとSuffixを追加した、実際にLLMが処理した入力文字列</li>
+<li><code>Output</code>: LLMからの出力文字列</li>
+<li><code>Found Antiprompt</code>: LLMからの出力文字列の末尾にAntipromptが見つかった場合はその文字列。見つからなかった場合は空。</li>
 </ul>
-<h2 id="_4">実行と停止</h2>
+<h2 id="_2">その他</h2>
 <ul>
-<li><code>Start Generation</code>関数を呼び出し、プロンプトに対する回答を生成します。</li>
+<li>実行時に設定を変更するには、<code>Change Setting</code>関数を呼び出します。現在の会話履歴等は全て破棄され、新たな設定でモデルの初期化が行われます。</li>
 <li><code>Stop Generation</code>関数を呼び出すと、プロンプトに対する回答を途中で強制終了できます。</li>
+<li><code>Hisotry</code>変数に、実際にLLMが処理した入出力が書き出されます。</li>
 </ul>
 
 
@@ -574,7 +677,7 @@
     <nav class="md-footer__inner md-grid" aria-label="フッター" >
       
         
-        <a href="../how-to-get-model/" class="md-footer__link md-footer__link--prev" aria-label="前: モデルの入手" rel="prev">
+        <a href="../how-to-get-model/" class="md-footer__link md-footer__link--prev" aria-label="前: 動作確認済みのモデル" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -583,20 +686,20 @@
               <span class="md-footer__direction">
                 前
               </span>
-              モデルの入手
+              動作確認済みのモデル
             </div>
           </div>
         </a>
       
       
         
-        <a href="../faq/" class="md-footer__link md-footer__link--next" aria-label="次: FAQ" rel="next">
+        <a href="../how-to-save/" class="md-footer__link md-footer__link--next" aria-label="次: ステートセーブとロード" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 次
               </span>
-              FAQ
+              ステートセーブとロード
             </div>
           </div>
           <div class="md-footer__button md-icon">

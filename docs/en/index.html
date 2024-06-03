@@ -320,9 +320,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          What is Local LLM Plugin?
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         What is Local LLM Plugin?
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-locally-and-within-bpc" class="md-nav__link">
+    Run locally and within BP/C++
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#useful-features" class="md-nav__link">
+    Useful features
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -390,7 +428,7 @@
   
     <li class="md-nav__item">
       <a href="how-to-get-model/" class="md-nav__link">
-        Get models
+        Supported models
       </a>
     </li>
   
@@ -405,6 +443,20 @@
     <li class="md-nav__item">
       <a href="how-to-use/" class="md-nav__link">
         Basic usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="how-to-save/" class="md-nav__link">
+        State save and load
       </a>
     </li>
   
@@ -471,10 +523,17 @@
 <p><a href="https://vrlab.akiya-souken.co.jp/en/products/localllmplugin/">Local LLM Plugin</a> allows to load a large language model (LLM) of GGUF format and run it on the Unreal Engine.</p>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/xjIJklDqJdE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
 
+<h2 id="run-locally-and-within-bpc">Run locally and within BP/C++</h2>
 <ul>
-<li>It works offline on a local PC.</li>
+<li>Runs offline on a local PC.</li>
 <li>Just add one component to your BP and you are ready to use it.</li>
-<li>Multibyte characters are supported.</li>
+<li>No Python or dedicated server is required.</li>
+</ul>
+<h2 id="useful-features">Useful features</h2>
+<ul>
+<li>Works asynchronously, additional questions can be asked at any time during answer generation.</li>
+<li>Supports saving and loading of "state" that preserve the context of a conversation with an LLM, allowing you to resume a previous conversation later.</li>
+<li>Supports multibyte characters.</li>
 </ul>
 
 

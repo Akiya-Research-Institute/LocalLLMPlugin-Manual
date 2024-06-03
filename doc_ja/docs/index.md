@@ -4,8 +4,16 @@
 
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/xjIJklDqJdE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
 
+## ローカル & BP/C++ で完結
+
 - ローカルPC上でオフラインで動作します。
 - アクターにコンポーネントを一つ追加するだけで動作します。
+- Pythonや専用サーバは必要ありません。
+
+## 便利な機能
+
+- 非同期に動作し、回答の生成中にいつでも追加の質問をすることができます。
+- LLMとの会話の文脈を保持した「状態」のセーブとロードが可能で、以前の会話の続きを後から再開できます。
 - マルチバイト文字が使用可能です。
-<!-- - CPUまたはCUDAをサポートするNVIDIAのGPUで動作します。 -->
+
 <!-- - [デモプロジェクト](./demo)を無料でダウンロードできます。 -->

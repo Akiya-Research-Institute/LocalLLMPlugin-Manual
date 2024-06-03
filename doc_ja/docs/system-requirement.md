@@ -40,12 +40,14 @@
 
     他の環境で正常に動作するかは保証できないので、Androidの対応状況は「Experimental」としています。 -->
 
-## 対応GPU
+## ハードウェア要件
 
-- CUDA 12.2に対応するNVIDIAのGPU
+- CPU または CUDA 12.2.0 をサポートする NVIDIA の GPU で動作します。
 
-<!-- NiagaraでGPUのみで使用できる機能を用いているため、本プラグインの使用にはGPUが必須です。  
-なお、下記GPUについては開発チームにて動作することが確認されています。
+!!! Info "CPUのみでも動作します"
+    GPUはオプショナルであり、CPUのみでも問題なく動作します。
 
-- NVIDIA RTX 2060
-- NVIDIA RTX 3070 -->
+!!! Info "CUDAのインストール"
+    GPUを利用するには、下記のバージョンのCUDAのインストールが必要です。
+
+    - [CUDA 12.2.0](https://developer.nvidia.com/cuda-12-2-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local)
