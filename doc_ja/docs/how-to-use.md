@@ -3,7 +3,7 @@
 サンプル実装は、`Plugins > LocalLLM > BP > BP_LocalLLM_Example`にあります。  
 `Plugins > LocalLLM > Map`のマップでテストできます。
 
-![](images/manual_ja.png){ loading=lazy }  
+![](images/manual_en.png){ loading=lazy }  
 
 ## 1.コンポーネントを追加
 
