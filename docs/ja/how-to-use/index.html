@@ -444,7 +444,7 @@
       
         <li class="md-nav__item">
   <a href="#3" class="md-nav__link">
-    3.プロンプトの入力
+    3.テキスト生成の開始
   </a>
   
 </li>
@@ -543,9 +543,9 @@
 
 
 <h1 id="_1">基本的な使い方</h1>
-<p>サンプル実装は、<code>Plugins &gt; LocalLLM &gt; Sample &gt; BP &gt; BP_Example</code>にあります。<br />
-<code>Plugins &gt; LocalLLM &gt; Sample &gt; Map &gt; Test</code>のマップでテストできます。</p>
-<p><img alt="" loading="lazy" src="../images/manual_ja.png" />  </p>
+<p>サンプル実装は、<code>Plugins &gt; LocalLLM &gt; BP &gt; BP_LocalLLM_Example</code>にあります。<br />
+<code>Plugins &gt; LocalLLM &gt; Map</code>のマップでテストできます。</p>
+<p><img alt="" loading="lazy" src="images/manual_ja.png" />  </p>
 <h2 id="1">1.コンポーネントを追加</h2>
 <ol>
 <li>Actorを作成します</li>
@@ -557,6 +557,7 @@
 <li>
 <p>Model Setting</p>
 <ul>
+<li><code>Path Type</code>：モデルのパスの種類。絶対パスで指定するかプロジェクトの相対パスで指定するか。</li>
 <li><code>Model Path</code>：使用する機械学習モデルのファイルのパスを指定します。（例：「C:\temp\model.gguf」）</li>
 <li><code>Execution device</code>： CPUとGPUのどちらを使うかを指定します。</li>
 <li><code>Number Of Gpu Layers</code>：GPUを使用する場合、GPUで実行するモデルのレイヤー数を指定します。
@@ -596,7 +597,9 @@ Assistant: マニュアルがある場合は、目を通しておくことも重
 <p><code>Interaction Template = None</code>の場合、テンプレートを使わず手動で下記の値を設定します。</p>
 <ul>
 <li><code>Antiprompts</code>：LLMがこのフレーズを出力した場合、出力を停止します。例えば、「User:」と設定することで、ユーザーが発言する順番になったときに生成を停止させることができます。リバースプロンプトまたはStopキーワードとも呼ばれます。</li>
-<li><code>Add Antiprompt as Prefix</code>：<code>Antiprompts</code>によらずに出力が停止した場合に、次のユーザの入力の先頭に自動的に<code>Antiprompts</code>（の配列の一番はじめのもの）を付与するかどうか。</li>
+<li><code>Add Antiprompt as Prefix</code>：<code>Antiprompts</code>によらずに出力が停止した場合に、次のユーザの入力の先頭に自動的に<code>Antiprompts</code>（の配列の一番はじめのもの）を付与するかどうか。例えば、antiprompts = { "User:" } を指定し、EOSでLLMの出力が停止すると、自動的に次のプロンプトに「User:」が追加されます。</li>
+<li><code>Antiprompt_prefix</code>: bAddAntipromptAsPrefix=trueで、Antipromptによらずに出力が停止した場合にPromptに付与する「接頭辞としてのAntiprompt」に対する接頭辞。例えば、「\n」は次のプロンプトに追加される 「User:」の前に改行を追加するために使用できます。</li>
+<li><code>Antiprompt_suffix</code>: bAddAntipromptAsPrefix=trueで、Antipromptによらずに出力が停止した場合にPromptに付与する「接頭辞としてのAntiprompt」に対する接尾辞。例えば、「 」は次のプロンプトに追加される 「User:」の後にスペースを追加するために使用できます。</li>
 <li><code>Input Prefix</code>：ユーザの入力の直前に付与する文字列</li>
 <li><code>Input Suffix</code>：ユーザの入力の直後に付与する文字列。これは、ユーザーの入力の後に 「Assistant:」 のようなプロンプトを追加するのに便利です。ユーザーの入力の最後に自動的に追加される改行文字(\n)の後に追加されます</li>
 </ul>
@@ -629,8 +632,13 @@ Assistant: マニュアルがある場合は、目を通しておくことも重
 <p>LLMモデルのパフォーマンスとメモリ使用量を改善するための設定</p>
 <p>詳細は各項目のツールチップまたは<code>LocalLLMStruct.h</code>のコメントをご覧ください。</p>
 </li>
+<li>
+<p>Encode Setting</p>
+<p>LLMに入力するプロンプトで改行などを扱うための変換処理の設定。</p>
+<p>詳細は各項目のツールチップまたは<code>LocalLLMStruct.h</code>のコメントをご覧ください。</p>
+</li>
 </ol>
-<h2 id="3">3.プロンプトの入力</h2>
+<h2 id="3">3.テキスト生成の開始</h2>
 <p>プロンプトと呼ばれる文字列を入力し、LLMにテキストの生成開始を指示する処理を作成します。<br />
 具体的には、<code>Start Generation</code>関数を呼び出します。</p>
 <ul>
@@ -640,14 +648,15 @@ Assistant: マニュアルがある場合は、目を通しておくことも重
 <h2 id="4">4.結果の取得</h2>
 <p><code>Local LLM</code>コンポーネントの下記イベントから結果を取得する処理を作成します。</p>
 <ul>
-<li><code>On Generating</code> イベントは、モデルが回答中の、中間的な結果を提供します。</li>
-<li><code>On Generated</code> イベントは、モデルの回答が完了した後に、最終的な結果を提供します。</li>
+<li><code>On Processing</code> イベントは、モデルが回答中の、中間的な結果を提供します。</li>
+<li><code>On Processed</code> イベントは、モデルの回答が完了した後に、最終的な結果を提供します。</li>
 </ul>
 <p>それぞれ、下記の結果が渡されます。</p>
 <ul>
 <li><code>Input</code>: ユーザの入力にPrefixとSuffixを追加した、実際にLLMが処理した入力文字列</li>
 <li><code>Output</code>: LLMからの出力文字列</li>
 <li><code>Found Antiprompt</code>: LLMからの出力文字列の末尾にAntipromptが見つかった場合はその文字列。見つからなかった場合は空。</li>
+<li><code>Exit Code</code> (On Processedのみ): テキスト生成が停止した理由。</li>
 </ul>
 <h2 id="_2">その他</h2>
 <ul>

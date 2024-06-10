@@ -1,25 +1,45 @@
-<!-- # Example scenes
+# Chat demo
 
-![](images/demo1280.png){ loading=lazy }  
+![](images/demo1.png){ loading=lazy }  
 
 ## Download
 
-Packaged build in EXE format is available [here](https://taguchishouji-my.sharepoint.com/:u:/g/personal/kasa_taguchishouji_onmicrosoft_com/ESL5tSLg-cpNomZDj_lMgfsBpT_VaZunWSAZQhp3WsZb2w?e=YhyPwf)
+Packaged build in EXE format is available [here](https://github.com/Akiya-Research-Institute/LocalLLM-Demo-UE5/releases)
 
-## System Requirements
+## GitHub source
 
-- Windows 10 64bit
-- GPU which support DirectX 12
+UE5 project files are available at [GitHub](https://github.com/Akiya-Research-Institute/LocalLLM-Demo-UE5)
 
-## How to use demo
+## Software Requirements
 
-Demo includes "Garden" and "Bicycle" scenes using Mip-NeRF 360 data.
+- Windows 64bit
+- Unreal Engine 5.4.2
+- Local LLM plugin v1.0 or above
 
-- Movement: WASD keys + Mouse
-- Map switching: Tab key
-- FPS display: F key
-- Quit demo: ESC key
+(Optinal) if you want to run with a GPU,
 
-## Source
+- CUDA: 12.2.0
 
-The UE5 project files are available on [GitHub](https://github.com/Akiya-Research-Institute/LocalLLMPlugin-Demo). -->
+## Hardware Reauirements
+
+- A CPU that supports AVX, AVX2 and FMA.  
+
+    The following CPUs should work.
+
+    - Intel: 4th Generation (Haswell) and above
+    - AMD: All Ryzen series
+
+(Optinal) if you want to run with a GPU,
+
+- A NVIDIA GPU that supports CUDA 12.2.0
+
+## How to use this demo
+Demo project contains 2 maps.
+
+- /Content/LocalLLMDemo/Map/ChatDemo_One  
+  Demonstration of conversation with 1 NPC
+
+- /Content/LocalLLMDemo/Map/ChatDemo_Multi  
+  Demonstration of conversation with 2 NPCs
+
+When you get close to the characters, a dialog UI automatically appears.

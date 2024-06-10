@@ -43,7 +43,18 @@
 
 ## Hardware Requirements
 
-- CPU or NVIDIA GPU that support CUDA 12.2
+### CPU
+
+Requires a CPU that supports AVX, AVX2 and FMA.
+
+The following CPUs should work, but please run [demo exe](../demo) to check if your CPU is supported.
+
+- Intel: 4th Generation (Haswell) and above
+- AMD: All Ryzen series
+
+### (Optional) GPU
+
+NVIDIA GPU that support CUDA 12.2
 
 !!! Info "Works with CPU only"
     GPU is optional and works fine with CPU only.

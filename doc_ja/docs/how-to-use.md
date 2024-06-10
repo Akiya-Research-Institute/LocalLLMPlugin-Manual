@@ -1,7 +1,7 @@
 # 基本的な使い方
 
-サンプル実装は、`Plugins > LocalLLM > Sample > BP > BP_Example`にあります。  
-`Plugins > LocalLLM > Sample > Map > Test`のマップでテストできます。
+サンプル実装は、`Plugins > LocalLLM > BP > BP_LocalLLM_Example`にあります。  
+`Plugins > LocalLLM > Map`のマップでテストできます。
 
 ![](images/manual_ja.png){ loading=lazy }  
 
@@ -16,6 +16,7 @@
 
 1. Model Setting
 
+	- `Path Type`：モデルのパスの種類。絶対パスで指定するかプロジェクトの相対パスで指定するか。
 	- `Model Path`：使用する機械学習モデルのファイルのパスを指定します。（例：「C:\temp\model.gguf」）
 	- `Execution device`： CPUとGPUのどちらを使うかを指定します。
 	- `Number Of Gpu Layers`：GPUを使用する場合、GPUで実行するモデルのレイヤー数を指定します。
@@ -55,7 +56,9 @@
 		`Interaction Template = None`の場合、テンプレートを使わず手動で下記の値を設定します。
 
 		- `Antiprompts`：LLMがこのフレーズを出力した場合、出力を停止します。例えば、「User:」と設定することで、ユーザーが発言する順番になったときに生成を停止させることができます。リバースプロンプトまたはStopキーワードとも呼ばれます。
-		- `Add Antiprompt as Prefix`：`Antiprompts`によらずに出力が停止した場合に、次のユーザの入力の先頭に自動的に`Antiprompts`（の配列の一番はじめのもの）を付与するかどうか。
+		- `Add Antiprompt as Prefix`：`Antiprompts`によらずに出力が停止した場合に、次のユーザの入力の先頭に自動的に`Antiprompts`（の配列の一番はじめのもの）を付与するかどうか。例えば、antiprompts = { "User:" } を指定し、EOSでLLMの出力が停止すると、自動的に次のプロンプトに「User:」が追加されます。
+		- `Antiprompt_prefix`: bAddAntipromptAsPrefix=trueで、Antipromptによらずに出力が停止した場合にPromptに付与する「接頭辞としてのAntiprompt」に対する接頭辞。例えば、「\n」は次のプロンプトに追加される 「User:」の前に改行を追加するために使用できます。
+		- `Antiprompt_suffix`: bAddAntipromptAsPrefix=trueで、Antipromptによらずに出力が停止した場合にPromptに付与する「接頭辞としてのAntiprompt」に対する接尾辞。例えば、「 」は次のプロンプトに追加される 「User:」の後にスペースを追加するために使用できます。
 		- `Input Prefix`：ユーザの入力の直前に付与する文字列
 		- `Input Suffix`：ユーザの入力の直後に付与する文字列。これは、ユーザーの入力の後に 「Assistant:」 のようなプロンプトを追加するのに便利です。ユーザーの入力の最後に自動的に追加される改行文字(\n)の後に追加されます
 		
@@ -86,7 +89,13 @@
 	
 	詳細は各項目のツールチップまたは`LocalLLMStruct.h`のコメントをご覧ください。
 
-## 3.プロンプトの入力
+7. Encode Setting
+
+	LLMに入力するプロンプトで改行などを扱うための変換処理の設定。
+
+	詳細は各項目のツールチップまたは`LocalLLMStruct.h`のコメントをご覧ください。
+
+## 3.テキスト生成の開始
 
 プロンプトと呼ばれる文字列を入力し、LLMにテキストの生成開始を指示する処理を作成します。  
 具体的には、`Start Generation`関数を呼び出します。
@@ -98,14 +107,15 @@
 
 `Local LLM`コンポーネントの下記イベントから結果を取得する処理を作成します。
 
-- `On Generating` イベントは、モデルが回答中の、中間的な結果を提供します。
-- `On Generated` イベントは、モデルの回答が完了した後に、最終的な結果を提供します。
+- `On Processing` イベントは、モデルが回答中の、中間的な結果を提供します。
+- `On Processed` イベントは、モデルの回答が完了した後に、最終的な結果を提供します。
 
 それぞれ、下記の結果が渡されます。
 
 - `Input`: ユーザの入力にPrefixとSuffixを追加した、実際にLLMが処理した入力文字列
 - `Output`: LLMからの出力文字列
 - `Found Antiprompt`: LLMからの出力文字列の末尾にAntipromptが見つかった場合はその文字列。見つからなかった場合は空。
+- `Exit Code` (On Processedのみ): テキスト生成が停止した理由。
 
 ## その他
 

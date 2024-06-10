@@ -1,7 +1,7 @@
 # Basic usage
 
-See `Plugins > LocalLLM > Sample > BP > BP_Example` for a sample implementation.  
-You can test it in a sample map located at `Plugins > LocalLLM > Sample > Map > Test`.
+See `Plugins > LocalLLM > BP > BP_LocalLLM_Example` for a sample implementation.  
+You can test it in sample maps located at `Plugins > LocalLLM > Map`.
 
 ![](images/manual_en.png){ loading=lazy }  
 
@@ -16,6 +16,7 @@ Select the `Local LLM` component and edit the following settings at `Local LLM >
 
 1. Model Setting
 
+	- `Path Type`: The path type of the model. Whether absolute path or relative to the project directories.
 	- `Model Path`: Specify the path to the gguf model.
 	- `Execution device`: Whether to use CPU or GPU.
 	- `Number Of Gpu Layers`: If using a GPU, specify the number of layers in the model to be run on the GPU.
@@ -56,7 +57,9 @@ Select the `Local LLM` component and edit the following settings at `Local LLM >
 		If `Interaction Template = None`, set the following values manually.
 
 		- `Antiprompts`: When LLM outputs one of these phrases, it stops to generate text. For example, "User:" can be used to stop generation when it's the user's turn to speak. Also known as Reverse prompts or Stop keywords.
-		- `Add Antiprompt as Prefix`: Whether to add the first one of `Antiprompts` automaticcaly to the next prompt as prefix after LLM stops without antiprompt (for example, after <End Of Sequence> token is generated).
+		- `Add Antiprompt as Prefix`: Whether to add the first one of `Antiprompts` automaticcaly to the next prompt as prefix after LLM stops without antiprompt (for example, after <End Of Sequence> token is generated). For example, when antiprompts = { "User:" } and  LLM stopped with EOS, "User:" will be automatically added to the next prompt.
+		- `Antiprompt_prefix`: Prefix for antiprompt when bAddAntipromptAsPrefix = true and LLM stopped without an antiprompt. For example, "\n" can be used to add a line break before "User:" added to the next prompt.
+		- `Antiprompt_suffix`: Prefix for antiprompt when bAddAntipromptAsPrefix = true and LLM stopped without an antiprompt. For example, " " can be used to add a space after "User:" added to the next prompt.
 		- `Input Prefix`: Prefix immediately before the user's input.
 		- `Input Suffix`: Suffix immediately after user's input. This is useful for adding an "Assistant:" prompt after the user's input. It's added after the new-line character (\n) that's automatically added to the end of the user's input.
 		
@@ -93,7 +96,13 @@ Select the `Local LLM` component and edit the following settings at `Local LLM >
 	
 	For details, see the tooltip of each item or the comments in `LocalLLMStruct.h`.
 
-## 3. Input prompts
+7. Encode Setting
+
+	Settings for conversions to handle special characters such as line feeds in the prompts you enter into LLM.
+
+	For details, see the tooltip of each item or the comments in `LocalLLMStruct.h`.
+
+## 3. Start Generation
 
 Create a process that allows you to input a string, called a prompt, to tell LLM to start generating text.  
 Specifically, call the `Start Generation` function.
@@ -105,17 +114,19 @@ Specifically, call the `Start Generation` function.
 
 Create the following event of `Local LLM` component to get the result.
 
-- `On Generating` event provides intermidiate result while the model is still generating response.
-- `On Generated` event provides final result after the model finishes the response.
+- `On Processing` event provides intermidiate result while the model is still generating response.
+- `On Processed` event provides final result after the model finishes the response.
 
 The following results are passed:
 
+- `Local LLM Component`: The component from which this event triggered
 - `Input`: The input string actually processed by the LLM, with Prefix and Suffix added to the user's input.
 - `Output`: The output string from the LLM.
 - `Found Antiprompt`: Antiprompt found at the end of the output string from the LLM, if any. Empty if not found.
+- `Exit Code` (On Processed only): The reason why text generation stopped.
 
 ## Others
 
 - To change setting, call `Change Setting` after changing values of `Local LLM Setting`. All the current settings and conversation history are discarded. The model is re-initialized with the new settings.
-- Call `Stop Generation` to terminate the response to the `Prompt`.
+- Call `Stop Generation` to terminate the text generation.
 - To the `Hisotry` variable, the actual inputs and outputs processed by the LLM are written out.

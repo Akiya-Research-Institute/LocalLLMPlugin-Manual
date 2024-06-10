@@ -377,6 +377,26 @@
     ハードウェア要件
   </a>
   
+    <nav class="md-nav" aria-label="ハードウェア要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu" class="md-nav__link">
+    CPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-gpu" class="md-nav__link">
+    (Optional) GPU
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -568,9 +588,15 @@
     他の環境で正常に動作するかは保証できないので、Androidの対応状況は「Experimental」としています。 -->
 
 <h2 id="_3">ハードウェア要件</h2>
+<h3 id="cpu">CPU</h3>
+<p>AVX、AVX2、FMAに対応したCPUが必要です。</p>
+<p>以下のCPUは動作するはずですが、<a href="../demo">demo exe</a>を実行して、お使いのCPUがサポートされているかどうか確認してください。</p>
 <ul>
-<li>CPU または CUDA 12.2.0 をサポートする NVIDIA の GPU で動作します。</li>
+<li>Intel: 第4世代（Haswell）以上</li>
+<li>AMD: すべてのRyzenシリーズ</li>
 </ul>
+<h3 id="optional-gpu">(Optional) GPU</h3>
+<p>CUDA 12.2.0 をサポートする NVIDIA の GPU で動作します。</p>
 <div class="admonition info">
 <p class="admonition-title">CPUのみでも動作します</p>
 <p>GPUはオプショナルであり、CPUのみでも問題なく動作します。</p>

@@ -19,7 +19,7 @@
     
     
       
-        <title>Demo - Local LLM Pluginマニュアル</title>
+        <title>会話デモ - Local LLM Pluginマニュアル</title>
       
     
     
@@ -85,6 +85,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -113,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Demo
+              会話デモ
             
           </span>
         </div>
@@ -464,33 +469,50 @@
                   
 
 
-  <h1>Demo</h1>
-
-<!-- # サンプルシーンのデモ
-
-![](images/demo1280.png){ loading=lazy }  
-
-## ダウンロード
-
-EXE形式のデモプロジェクトを[こちら](https://taguchishouji-my.sharepoint.com/:u:/g/personal/kasa_taguchishouji_onmicrosoft_com/ESL5tSLg-cpNomZDj_lMgfsBpT_VaZunWSAZQhp3WsZb2w?e=YhyPwf)からダウンロードできます。
-
-## システム要件
-
-- Windows 10 64bit
-- DirectX 12対応のGPU
-
-## デモの操作
-
-デモには、Mip-NeRF 360のデータを使った「Garden」と「Bicycle」のシーンが含まれています。
-
-- 移動：WASDキー + マウス
-- マップ切り替え：Tabキー
-- FPS表示：Fキー
-- 終了: ESCキー
-
-## GitHubソース
-
-デモのUE5プロジェクトファイルを[GitHubで公開](https://github.com/Akiya-Research-Institute/LocalLLMPlugin-Demo)しています。 -->
+<h1 id="_1">会話デモ</h1>
+<p><img alt="" loading="lazy" src="../images/demo2.png" />  </p>
+<h2 id="_2">ダウンロード</h2>
+<p>EXE形式のデモプロジェクトを<a href="https://github.com/Akiya-Research-Institute/LocalLLM-Demo-UE5/releases">こちら</a>からダウンロードできます。</p>
+<h2 id="github">GitHubソース</h2>
+<p>デモのUE5プロジェクトファイルを<a href="https://github.com/Akiya-Research-Institute/LocalLLM-Demo-UE5">GitHubで公開</a>しています。</p>
+<h2 id="_3">ソフトウェア要件</h2>
+<ul>
+<li>Windows 64bit</li>
+<li>Unreal Engine 5.4.2</li>
+<li>Local LLM plugin v1.0以上</li>
+</ul>
+<p>(オプション) GPUで実行したい場合は、</p>
+<ul>
+<li>CUDA: 12.2.0</li>
+</ul>
+<h2 id="_4">ハードウェア要件</h2>
+<ul>
+<li>
+<p>AVX、AVX2、FMAに対応したCPUが必要です。</p>
+<p>以下のCPUは動作するはずです。</p>
+<ul>
+<li>Intel: 第4世代（Haswell）以上</li>
+<li>AMD: すべてのRyzenシリーズ</li>
+</ul>
+</li>
+</ul>
+<p>(オプション) GPUで実行したい場合は、</p>
+<ul>
+<li>CUDA 12.2.0 をサポートする NVIDIA の GPU。</li>
+</ul>
+<h2 id="_5">デモの使い方</h2>
+<p>デモプロジェクトには2つのマップが含まれています。</p>
+<ul>
+<li>
+<p>/Content/LocalLLMDemo/Map/ChatDemo_One<br />
+  NPC1人との会話デモ</p>
+</li>
+<li>
+<p>/Content/LocalLLMDemo/Map/ChatDemo_Multi<br />
+  NPC2人との会話デモ</p>
+</li>
+</ul>
+<p>NPCに近づくと、自動的にダイアログUIが表示されます。</p>
 
 
   

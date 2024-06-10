@@ -443,8 +443,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-input-prompts" class="md-nav__link">
-    3. Input prompts
+  <a href="#3-start-generation" class="md-nav__link">
+    3. Start Generation
   </a>
   
 </li>
@@ -527,6 +527,56 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Demo Project
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Demo Project" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Demo Project
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/" class="md-nav__link">
+        Chat demo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -543,8 +593,8 @@
 
 
 <h1 id="basic-usage">Basic usage</h1>
-<p>See <code>Plugins &gt; LocalLLM &gt; Sample &gt; BP &gt; BP_Example</code> for a sample implementation.<br />
-You can test it in a sample map located at <code>Plugins &gt; LocalLLM &gt; Sample &gt; Map &gt; Test</code>.</p>
+<p>See <code>Plugins &gt; LocalLLM &gt; BP &gt; BP_LocalLLM_Example</code> for a sample implementation.<br />
+You can test it in sample maps located at <code>Plugins &gt; LocalLLM &gt; Map</code>.</p>
 <p><img alt="" loading="lazy" src="../images/manual_en.png" />  </p>
 <h2 id="1-add-a-component">1. Add a component</h2>
 <ol>
@@ -557,6 +607,7 @@ You can test it in a sample map located at <code>Plugins &gt; LocalLLM &gt; Samp
 <li>
 <p>Model Setting</p>
 <ul>
+<li><code>Path Type</code>: The path type of the model. Whether absolute path or relative to the project directories.</li>
 <li><code>Model Path</code>: Specify the path to the gguf model.</li>
 <li><code>Execution device</code>: Whether to use CPU or GPU.</li>
 <li><code>Number Of Gpu Layers</code>: If using a GPU, specify the number of layers in the model to be run on the GPU.</li>
@@ -597,7 +648,9 @@ Assistant: It is also important to read the manual, if there is one!</p>
 <p>If <code>Interaction Template = None</code>, set the following values manually.</p>
 <ul>
 <li><code>Antiprompts</code>: When LLM outputs one of these phrases, it stops to generate text. For example, "User:" can be used to stop generation when it's the user's turn to speak. Also known as Reverse prompts or Stop keywords.</li>
-<li><code>Add Antiprompt as Prefix</code>: Whether to add the first one of <code>Antiprompts</code> automaticcaly to the next prompt as prefix after LLM stops without antiprompt (for example, after <End Of Sequence> token is generated).</li>
+<li><code>Add Antiprompt as Prefix</code>: Whether to add the first one of <code>Antiprompts</code> automaticcaly to the next prompt as prefix after LLM stops without antiprompt (for example, after <End Of Sequence> token is generated). For example, when antiprompts = { "User:" } and  LLM stopped with EOS, "User:" will be automatically added to the next prompt.</li>
+<li><code>Antiprompt_prefix</code>: Prefix for antiprompt when bAddAntipromptAsPrefix = true and LLM stopped without an antiprompt. For example, "\n" can be used to add a line break before "User:" added to the next prompt.</li>
+<li><code>Antiprompt_suffix</code>: Prefix for antiprompt when bAddAntipromptAsPrefix = true and LLM stopped without an antiprompt. For example, " " can be used to add a space after "User:" added to the next prompt.</li>
 <li><code>Input Prefix</code>: Prefix immediately before the user's input.</li>
 <li><code>Input Suffix</code>: Suffix immediately after user's input. This is useful for adding an "Assistant:" prompt after the user's input. It's added after the new-line character (\n) that's automatically added to the end of the user's input.</li>
 </ul>
@@ -641,8 +694,13 @@ Assistant: It is also important to read the manual, if there is one!</p>
 <p>Settings to improve performance and memory usage of LLM models.</p>
 <p>For details, see the tooltip of each item or the comments in <code>LocalLLMStruct.h</code>.</p>
 </li>
+<li>
+<p>Encode Setting</p>
+<p>Settings for conversions to handle special characters such as line feeds in the prompts you enter into LLM.</p>
+<p>For details, see the tooltip of each item or the comments in <code>LocalLLMStruct.h</code>.</p>
+</li>
 </ol>
-<h2 id="3-input-prompts">3. Input prompts</h2>
+<h2 id="3-start-generation">3. Start Generation</h2>
 <p>Create a process that allows you to input a string, called a prompt, to tell LLM to start generating text.<br />
 Specifically, call the <code>Start Generation</code> function.</p>
 <ul>
@@ -652,19 +710,21 @@ Specifically, call the <code>Start Generation</code> function.</p>
 <h2 id="4-get-results">4. Get results</h2>
 <p>Create the following event of <code>Local LLM</code> component to get the result.</p>
 <ul>
-<li><code>On Generating</code> event provides intermidiate result while the model is still generating response.</li>
-<li><code>On Generated</code> event provides final result after the model finishes the response.</li>
+<li><code>On Processing</code> event provides intermidiate result while the model is still generating response.</li>
+<li><code>On Processed</code> event provides final result after the model finishes the response.</li>
 </ul>
 <p>The following results are passed:</p>
 <ul>
+<li><code>Local LLM Component</code>: The component from which this event triggered</li>
 <li><code>Input</code>: The input string actually processed by the LLM, with Prefix and Suffix added to the user's input.</li>
 <li><code>Output</code>: The output string from the LLM.</li>
 <li><code>Found Antiprompt</code>: Antiprompt found at the end of the output string from the LLM, if any. Empty if not found.</li>
+<li><code>Exit Code</code> (On Processed only): The reason why text generation stopped.</li>
 </ul>
 <h2 id="others">Others</h2>
 <ul>
 <li>To change setting, call <code>Change Setting</code> after changing values of <code>Local LLM Setting</code>. All the current settings and conversation history are discarded. The model is re-initialized with the new settings.</li>
-<li>Call <code>Stop Generation</code> to terminate the response to the <code>Prompt</code>.</li>
+<li>Call <code>Stop Generation</code> to terminate the text generation.</li>
 <li>To the <code>Hisotry</code> variable, the actual inputs and outputs processed by the LLM are written out.</li>
 </ul>
 

@@ -98,5 +98,5 @@ nav:
       - how-to-save.md
     - faq.md
     - changelog.md
-  # - Demo Project:
-  #   - demo.md
+  - Demo Project:
+    - demo.md

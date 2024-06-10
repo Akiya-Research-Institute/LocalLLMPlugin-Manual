@@ -377,6 +377,26 @@
     Hardware Requirements
   </a>
   
+    <nav class="md-nav" aria-label="Hardware Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu" class="md-nav__link">
+    CPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-gpu" class="md-nav__link">
+    (Optional) GPU
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -511,6 +531,56 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Demo Project
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Demo Project" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Demo Project
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/" class="md-nav__link">
+        Chat demo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -569,9 +639,15 @@
     We cannot guarantee whether it will work properly in other environments, so the Android support status is "Experimental". -->
 
 <h2 id="hardware-requirements">Hardware Requirements</h2>
+<h3 id="cpu">CPU</h3>
+<p>Requires a CPU that supports AVX, AVX2 and FMA.</p>
+<p>The following CPUs should work, but please run <a href="../demo">demo exe</a> to check if your CPU is supported.</p>
 <ul>
-<li>CPU or NVIDIA GPU that support CUDA 12.2</li>
+<li>Intel: 4th Generation (Haswell) and above</li>
+<li>AMD: All Ryzen series</li>
 </ul>
+<h3 id="optional-gpu">(Optional) GPU</h3>
+<p>NVIDIA GPU that support CUDA 12.2</p>
 <div class="admonition info">
 <p class="admonition-title">Works with CPU only</p>
 <p>GPU is optional and works fine with CPU only.</p>

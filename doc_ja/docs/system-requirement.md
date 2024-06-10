@@ -42,7 +42,18 @@
 
 ## ハードウェア要件
 
-- CPU または CUDA 12.2.0 をサポートする NVIDIA の GPU で動作します。
+### CPU
+
+AVX、AVX2、FMAに対応したCPUが必要です。
+
+以下のCPUは動作するはずですが、[demo exe](../demo)を実行して、お使いのCPUがサポートされているかどうか確認してください。
+
+- Intel: 第4世代（Haswell）以上
+- AMD: すべてのRyzenシリーズ
+
+### (Optional) GPU
+
+CUDA 12.2.0 をサポートする NVIDIA の GPU で動作します。
 
 !!! Info "CPUのみでも動作します"
     GPUはオプショナルであり、CPUのみでも問題なく動作します。
