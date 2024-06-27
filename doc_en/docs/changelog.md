@@ -1,4 +1,4 @@
 # Changelog
 
-## v1.0 (Jun. xx, 2024)
+## v1.0 (Jun. 11, 2024)
 - First release.

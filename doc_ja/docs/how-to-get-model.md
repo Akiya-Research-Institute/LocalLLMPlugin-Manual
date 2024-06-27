@@ -13,3 +13,4 @@
 
 - [ArrowPro 7B RobinHood](https://huggingface.co/mmnga/DataPilot-ArrowPro-7B-RobinHood-gguf/blob/main/DataPilot-ArrowPro-7B-RobinHood-IQ4_XS.gguf)
 - [ArrowPro 7B KUJIRA](https://huggingface.co/mmnga/DataPilot-ArrowPro-7B-KUJIRA-gguf/blob/main/DataPilot-ArrowPro-7B-KUJIRA-IQ4_XS.gguf)
+- [ELYZA JP 8B](https://huggingface.co/elyza/Llama-3-ELYZA-JP-8B-GGUF/blob/main/Llama-3-ELYZA-JP-8B-q4_k_m.gguf)
