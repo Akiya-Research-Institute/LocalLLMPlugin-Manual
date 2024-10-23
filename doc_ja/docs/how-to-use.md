@@ -21,6 +21,7 @@
 	- `Execution device`： CPUとGPUのどちらを使うかを指定します。
 	- `Number Of Gpu Layers`：GPUを使用する場合、GPUで実行するモデルのレイヤー数を指定します。
 	<!-- - `Main GPU`：GPUを使用し、PCに複数のGPUを搭載している場合、使用するGPUの番号を指定します。 -->
+	- `LoRA Settings`：LoRAを使用する場合、LoRAのファイルパスと強度を指定します。
 
 2. Prompt Setting
 

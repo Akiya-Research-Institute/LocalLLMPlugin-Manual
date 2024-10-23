@@ -20,6 +20,7 @@ Select the `Local LLM` component and edit the following settings at `Local LLM >
 	- `Model Path`: Specify the path to the gguf model.
 	- `Execution device`: Whether to use CPU or GPU.
 	- `Number Of Gpu Layers`: If using a GPU, specify the number of layers in the model to be run on the GPU.
+	- `LoRA Settings`: Specify LoRA file path and strength if using LoRA.
 
 2. Prompt Setting
 

@@ -1,6 +1,6 @@
 # インストール方法
 
-1. [UEマーケットプレイス](https://www.unrealengine.com/marketplace/product/b349cc8c5ef840ac90cd08d0ee59a89d)で購入し、インストールしてください。
+1. [Fab](https://www.fab.com/listings/b4bba0b8-e456-46b7-adf2-8ecb1219033e)で購入し、インストールしてください。
 2. Unreal Engine プロジェクトを作成します。
 3. プロジェクトを開き、エディタメニューの `Edit > Plugins` を開き、`Local LLM` を有効にし、プロジェクトを再起動します。
 

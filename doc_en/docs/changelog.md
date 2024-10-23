@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.1 (Oct. 23, 2024)
+
+- Added support for Llama 3.1 8B and 3.2 3B.
+
+    (llama.cpp runtime updated to b3853)
+
+- Added support for LoRA.
+
+    To use LoRA, specify the file path and strength in the Model Setting.
+
 ## v1.1.1 (Jul. 1, 2024)
 
 - Changed the default context length from 2048 to -1 (the context length the model trained)

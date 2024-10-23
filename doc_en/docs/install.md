@@ -1,6 +1,6 @@
 # Installation
 
-1. Purchase at [UE Marketplace](https://www.unrealengine.com/marketplace/product/b349cc8c5ef840ac90cd08d0ee59a89d) and install it.
+1. Purchase at [Fab](https://www.fab.com/listings/b4bba0b8-e456-46b7-adf2-8ecb1219033e) and install it.
 2. Create an Unreal Engine project.
 3. Open the project, open `Edit > Plugins` on the editor menu, enable `Local LLM`, and restart the project.
 
