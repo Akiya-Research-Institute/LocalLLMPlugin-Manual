@@ -6,7 +6,7 @@
 
 - [Llama 3 8B](https://huggingface.co/QuantFactory/Meta-Llama-3-8B-Instruct-GGUF/blob/main/Meta-Llama-3-8B-Instruct.Q4_K_S.gguf)
 - [Llama 3.1 8B](https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/blob/main/Meta-Llama-3.1-8B-Instruct-Q4_K_S.gguf)
-- [Llama 3.2 3B](https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/blob/main/Llama-3.2-3B-Instruct-Q4_K_S.gguf)
+<!-- - [Llama 3.2 3B](https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/blob/main/Llama-3.2-3B-Instruct-Q4_K_S.gguf) -->
 - [Phi-3 Medium](https://huggingface.co/mmnga/Phi-3-medium-128k-instruct-gguf/blob/main/Phi-3-medium-128k-instruct-Q4_K_S.gguf)
 - [Gemma 7B](https://huggingface.co/mmnga/gemma-7b-it-gguf/blob/main/gemma-7b-it-q8_0.gguf)
 - [Gemma-2 9B](https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/blob/main/gemma-2-9b-it-Q4_K_S.gguf)

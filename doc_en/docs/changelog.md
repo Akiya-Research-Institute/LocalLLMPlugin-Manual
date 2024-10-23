@@ -2,7 +2,7 @@
 
 ## v1.2.1 (Oct. 23, 2024)
 
-- Added support for Llama 3.1 8B and 3.2 3B.
+- Added support for Llama 3.1 8B.
 
     (llama.cpp runtime updated to b3853)
 
